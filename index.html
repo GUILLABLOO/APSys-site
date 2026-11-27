@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APSys — Asya oPerating System</title>
+  <style>
+    body {
+      background: #ffffff;
+      color: #004d00;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0;
+      padding: 16px;
+    }
+    .box {
+      max-width: 740px;
+      margin: 0 auto;
+      border: 1px solid #000000;
+      padding: 16px 20px;
+      background: #ffffff;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 4px 0;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 6px;
+    }
+    h2 {
+      font-size: 15px;
+      margin: 16px 0 6px 0;
+      text-transform: uppercase;
+      border-bottom: 1px solid #004d00;
+      padding-bottom: 2px;
+    }
+    p {
+      margin: 4px 0 8px 0;
+    }
+    ul {
+      margin: 4px 0 8px 0;
+      padding-left: 18px;
+    }
+    li {
+      margin-bottom: 2px;
+    }
+    .nav {
+      margin: 6px 0 12px 0;
+    }
+    .nav a {
+      margin-right: 10px;
+    }
+    a {
+      color: #004d00;
+      text-decoration: underline;
+    }
+    a:hover {
+      background: #004d00;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 10px 0;
+    }
+    th, td {
+      border: 1px solid #000000;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    pre {
+      margin: 6px 0 10px 0;
+      padding: 6px 8px;
+      border: 1px solid #000000;
+      overflow-x: auto;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+    .ascii {
+      border: none;
+      padding: 0;
+      margin: 0 0 10px 0;
+      font-size: 11px;
+    }
+    .footer {
+      margin-top: 16px;
+      padding-top: 8px;
+      border-top: 1px solid #000000;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+
+  <h1>APSys — Asya oPerating System</h1>
+  <p>Хобби-ОС с нуля на C и x86 Assembly (без сторонних библиотек и POSIX). Гибрид идей Plan 9 (ArtheDesktop) и Visopsys.</p>
+
+  <h2 id="specs">Характеристики и возможности</h2>
+  <ul>
+    <li><strong>База:</strong> i686 (32-bit), GRUB Multiboot или свой MBR + Stage1 (LBA 64), VBE 2.0 до 32 bpp.</li>
+    <li><strong>ФС:</strong> FAT32, EXT2 (mini до 32 МБ) + RAM-оверлей, комнаты (<code>.room</code>), утилита <code>fsc</code>.</li>
+    <li><strong>GUI (ArtheDesktop):</strong> окна, ресайз, шторка, 5 обоев, часы, инверсия, кооперативный pump.</li>
+    <li><strong>Инструменты:</strong> 2 ассемблера (<code>asmc</code> и стековый <code>asm</code>), редактор <code>jaro</code>, нативный запуск <code>asb</code>.</li>
+    <li><strong>Железо:</strong> Acer Aspire M3630 (лучше всего), Aspire 7110 (стабильно), ThinkPad X240 (CSM).</li>
+  </ul>
+
+  <h2 id="cmd">Полный справочник команд (AsyxBox Shell)</h2>
+  <table>
+    <tr><th>Команда</th><th>Описание</th><th>Команда</th><th>Описание</th></tr>
+    <tr><th colspan="2">Навигация и файлы</th><th colspan="2">Система и железо</th></tr>
+    <tr><td><code>ct</code></td><td>Показать текущий путь и дом</td><td><code>hp</code> / <code>cots</code></td><td>Справка / автор и тестеры</td></tr>
+    <tr><td><code>ct &lt;путь&gt;</code></td><td>Перейти в комнату</td><td><code>si</code> / <code>dt</code></td><td>SysInfo / дата и время CMOS</td></tr>
+    <tr><td><code>ct -t</code> / <code>ct -fr</code></td><td>Вверх / возврат домой</td><td><code>dk</code> / <code>pc</code></td><td>Тома (<code>b00</code>) / PCI контроллеры</td></tr>
+    <tr><td><code>sa</code> / <code>sa &lt;путь&gt;</code></td><td>Список файлов здесь / там</td><td><code>hd</code></td><td>Диагностика аудио Intel HDA</td></tr>
+    <tr><td><code>ce to &lt;п&gt; name &lt;ф&gt;</code></td><td>Создать файл или <code>.room</code></td><td><code>fsc in &lt;т&gt; type &lt;фс&gt;</code></td><td>Формат тома (fat32 / ext2)</td></tr>
+    <tr><td><code>re from &lt;п&gt; name &lt;ф&gt;</code></td><td>Удалить файл или <code>.room</code></td><td><code>sh &lt;terminal|arthe&gt;</code></td><td>Сменить режим оболочки</td></tr>
+    <tr><td><code>wt to &lt;п&gt; name &lt;ф&gt; text &lt;т&gt;</code></td><td>Записать текст на диск</td><td><code>pt &lt;текст&gt;</code> / <code>cr</code></td><td>Вывод текста / очистка экрана</td></tr>
+    <tr><td><code>tr</code> <em>(#if 0)</em></td><td>Дерево RAM-оверлея (скрыт)</td><td><code>rb</code> / <code>sn</code></td><td>Перезагрузка / выключение</td></tr>
+    <tr><th colspan="2">Код и бинарники</th><th colspan="2">Приложения и демо</th></tr>
+    <tr><td><code>jaro from &lt;п&gt; name &lt;ф&gt;</code></td><td>Редактор (<code>.asm</code>, <code>.txt</code>)</td><td><code>calc</code> / <code>draw</code></td><td>Калькулятор / рисовалка</td></tr>
+    <tr><td><code>asmc from &lt;п&gt; name &lt;ф&gt;</code></td><td>Регистровый ASM-компилятор</td><td><code>chess</code> / <code>balls</code></td><td>3D-шахматы / шарики</td></tr>
+    <tr><td><code>asm from &lt;п&gt; name &lt;ф&gt;</code></td><td>Стековый ASM (байткод ASM1)</td><td><code>cube</code> / <code>cubef</code></td><td>3D-куб / 4D-тессеракт</td></tr>
+    <tr><td><code>asb from &lt;п&gt; name &lt;ф&gt;</code></td><td>Запуск бинарника <code>@0x01000000</code></td><td><code>co</code> / <code>settings</code></td><td>Демо цветов / настройки GUI</td></tr>
+  </table>
+
+  <h2 id="build">Сборка и запуск</h2>
+  <p>Требуются: <code>clang</code> (<code>i686-pc-elf</code>), <code>nasm</code>, <code>ld</code>, <code>grub-mkrescue</code>, <code>qemu-system-x86_64</code>.</p>
+  <pre>make clean &amp;&amp; make
+qemu-system-x86_64 -cdrom APSys*.iso -m 256M -vga std</pre>
+  <p>С дисками под <code>fsc</code> (<code>ext2.img</code> 32M, <code>fat32.img</code> 64M, <code>third.img</code> 64M) и HDA-заглушкой:</p>
+  <pre>qemu-system-x86_64 -cdrom APSys.iso -m 256M -vga std \
+  -device intel-hda -device hda-duplex -audiodev none,id=snd0 \
+  -drive file=ext2.img,format=raw,index=0,media=disk \
+  -drive file=fat32.img,format=raw,index=1,media=disk \
+  -drive file=third.img,format=raw,index=3,media=disk</pre>
+
+  <h2 id="asb">Нативные программы (asb)</h2>
+  <p>Точка входа <code>app</code> принимает <code>asyxbox_ctx_t*</code>. Линковка по адресу <code>0x01000000</code> (<code>app.ld</code>):</p>
+  <pre>clang -target i686-pc-elf -m32 -ffreestanding -nostdinc -Os -fno-builtin \
+  -fno-stack-protector -mno-red-zone -fno-pie -I. -c asfetch.c -o asfetch.o
+ld -m elf_i386 -T app.ld --oformat binary asfetch.o -o asfetch.bin
+# Внутри APSys: asya-&gt;asb from &lt;b00&gt; name &lt;asfetch.bin&gt;</pre>
+
+  <h2 id="credits">Авторы и лицензия</h2>
+  <p><strong>GUILLABLOO</strong> — создатель (TikTok: <code>@GUILLABLOO</code>) &bull; !публикация готовится! ;) </strong></p>
+  <p>Тестировщики первых Local Preview: <strong>Tinwo</strong> (ASCII-лого и <code>asfetch</code>), <strong>raz3r_hype</strong>, <strong>aero_wx.2</strong>, <strong>monitor_shinco_y198_hp8</strong>.</p>
+  <p>Лицензия ОС: <strong>GNU GPLv3</strong> (<code>GPL-3.0-or-later</code>). <em>Ссылка на документ с gpl-3.0 будет доступен с публикации самой ОС!.</em></p>
+
+  <div class="footer">APSys &copy; 2026 GUILLABLOO.</div>
+
+</div>
+
+</body>
+</html>
